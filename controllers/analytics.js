@@ -76,6 +76,12 @@ export const dashboardData = async(req,res) => {
             ordersPercentage = 0.0;
         }
 
+        if(ordersPercentage == null){
+            ordersPercentage = 0.0
+        }
+        if(leadsPercentage == null){
+            leadsPercentage = 0.0
+        }
         
         res.status(200).json({
             status: 'success',
