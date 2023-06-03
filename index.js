@@ -64,7 +64,8 @@ app.use("/download",exportRoutes);
 
 app.use(errorHandler)
 
-const CONNECTION_URL = 'mongodb+srv://classed:wNnb6cE8BbDtU3Me@cluster0.iumc0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const CONNECTION_URL = '6://doadmin:0pEHZ1CS67D352k4@private-db-mongodb-blr1-59324-c6d46d75.mongo.ondigitalocean.com:27017/admin?'
+// const CONNECTION_URL = 'mongodb+srv://classed:wNnb6cE8BbDtU3Me@cluster0.iumc0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 // const CONNECTION_URL = 'mongodb://127.0.0.1:27017'
 // const CONNECTION_URL = process.env.MONGODB
 const PORT = process.env.PORT || 5000
