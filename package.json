@@ -1,0 +1,38 @@
+{
+  "name": "creatives",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1361.0",
+    "axios": "^1.3.4",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^14.3.2",
+    "email-templates": "^8.0.4",
+    "express": "^4.18.2",
+    "fast-csv": "^4.3.6",
+    "googleapis": "^72.0.0",
+    "handlebars": "^4.7.7",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.3.1",
+    "mongoose": "^6.10.5",
+    "nodemailer": "^6.7.2",
+    "nodemailer-express-handlebars": "^5.0.0",
+    "nodemon": "^2.0.20",
+    "puppeteer": "^20.2.0",
+    "razorpay": "^2.0.6",
+    "shortid": "^2.2.16",
+    "socket.io": "^4.6.1"
+  }
+}
