@@ -1,6 +1,8 @@
 import Task from "../models/Tasks.js"
 import Mongoose from 'mongoose';
 import Automation from "../models/automation.js";
+import Workforce from "../models/Workforce.js";
+import sendEmail from './mail.js'
 
 export const fetchAllTasks = async(req,res) => {
     const {id} = req.params
@@ -55,15 +57,49 @@ export const fetchTasksByWorkforce = async(req,res) => {
 export const createTask = async(req,res) => {
     
     const task = req.body;
-    const newTask = new Task({...task, creator: req.userId, createdAt: new Date().toISOString()})
+    const newTask = await new Task({...task, creator: req.userId, createdAt: new Date().toISOString()})
 
     try{
         await newTask.save()
-        const auto = await Automation.find({creator: req.userId,event:{$eq:6}})
-        if(auto){
-            //perform actions
-            console.log(auto)
+        const {email} =  await Workforce.find({id:newTask.allocated_to.id})
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          };
+          
+          const formattedDate = newTask.deadline.toLocaleDateString('en-US', options);
+        const message = `
+            <h1>You've been assigned with a Task</h1>
+            <p><b>Task Title : </b>${newTask.job_title}</p>
+            <p><b>Task Deadline : </b>${formattedDate}</p>
+            <p><b>Task Description : </b>${newTask.description}</p>
+
+        `
+
+        try {
+            await sendEmail({
+                to: email,
+                subject: "Task Assigned", 
+                text: message
+            })
+
+            res.status(200).json({success: true, data: "Check your inbox"})
+
+        } catch(error){
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpire = undefined
+
+            await user.save()
+
+            return next(new ErrorResponse("Email couldn't be sent",500))
         }
+        // const auto = await Automation.find({creator: req.userId,event:{$eq:6}})
+        // if(auto){
+        //     //perform actions
+        //     console.log(auto)
+        // }
         res.status(201).json(newTask)
         
     }
