@@ -61,7 +61,7 @@ export const createTask = async(req,res) => {
 
     try{
         await newTask.save()
-        const wf =  await Workforce.find({id:newTask.allocated_to.id})
+        const wf =  await Workforce.find({_id:newTask.allocated_to.id})
         const options = {
             weekday: 'long',
             year: 'numeric',
@@ -77,7 +77,7 @@ export const createTask = async(req,res) => {
             <p><b>Task Description : </b>${newTask.description}</p>
 
         `
-        console.log(wf.email)
+        console.log(wf)
         console.log(newTask)
 
         try {
