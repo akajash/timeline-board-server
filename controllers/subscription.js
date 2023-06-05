@@ -12,7 +12,7 @@ const razorpay = new Razorpay({
 export const subscribe = async(req,res) => {
 
 
-    const amount = 1399
+    const amount = 5
     const currency = "INR"
     const payment_capture = 1
 
