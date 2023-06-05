@@ -61,7 +61,7 @@ export const createTask = async(req,res) => {
 
     try{
         await newTask.save()
-        const {email} =  await Workforce.find({id:newTask.allocated_to.id})
+        const wf =  await Workforce.find({id:newTask.allocated_to.id})
         const options = {
             weekday: 'long',
             year: 'numeric',
@@ -69,7 +69,7 @@ export const createTask = async(req,res) => {
             day: 'numeric'
           };
           
-          const formattedDate = newTask.deadline.toLocaleDateString('en-US', options);
+        const formattedDate = newTask.deadline.toLocaleDateString('en-US', options);
         const message = `
             <h1>You've been assigned with a Task</h1>
             <p><b>Task Title : </b>${newTask.job_title}</p>
@@ -77,30 +77,28 @@ export const createTask = async(req,res) => {
             <p><b>Task Description : </b>${newTask.description}</p>
 
         `
+        console.log(wf.email)
+        console.log(newTask)
 
         try {
             await sendEmail({
-                to: email,
+                to: wf.email,
                 subject: "Task Assigned", 
                 text: message
             })
 
-            res.status(200).json({success: true, data: "Check your inbox"})
-
-        } catch(error){
-            user.resetPasswordToken = undefined
-            user.resetPasswordExpire = undefined
-
-            await user.save()
-
-            return next(new ErrorResponse("Email couldn't be sent",500))
+        } catch(error){      
+            console.log(error)
+        }
+        finally{
+            res.status(201).json(newTask)
         }
         // const auto = await Automation.find({creator: req.userId,event:{$eq:6}})
         // if(auto){
         //     //perform actions
         //     console.log(auto)
         // }
-        res.status(201).json(newTask)
+        
         
     }
     catch(error){
