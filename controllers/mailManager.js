@@ -70,7 +70,7 @@ export const sendPayload = async(userId,mailLoad) => {
             subject: mail.subject
         }
 
-        axios.post('http://127.0.0.1:5000/mailer', data)
+        axios.post('http://142.93.223.130/mailer', data)
             .catch(error => {
                 console.log(error);
             });
