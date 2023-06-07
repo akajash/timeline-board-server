@@ -31,7 +31,6 @@ export const getSettings = async(req,res) => {
 
 export const updateSettings = async(req,res) => {
     const settings = req.body
-    console.log(settings)
     try{
         const updatedSettings = await EmailSettings.findOneAndUpdate({user:req.userId}, {...settings})
         res.json(updatedSettings)
