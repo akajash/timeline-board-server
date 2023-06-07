@@ -21,31 +21,50 @@ export const sendPayload = async(userId,mailLoad) => {
 
         var recMail = "";
         var variables = {}
+        const projectData = await Project.findOne({_id: mailLoad.project})
+        var project_variables = {
+            "client_name" : projectData.eventName,
+            "event_type" : projectData.eventType,
+            "location" : projectData.eventLocation,
+            "contact" : projectData.primaryContact,
+            "start_date" : projectData.dateFrom,
+            "end_date" : projectData.dateTo,
+            "package_name" : projectData.package,
+            "reference" : projectData.reference.title,
+            "quoted_amount" : projectData.amountQuoted,
+            "amount_paid" : projectData.amountPaid,
+            "client_email" : projectData.email,
+            "discount" : projectData.discount,
+            "discount_type" : projectData.discount_type,
+            "client_notes" : projectData.additionalNotes,
+            "services" : projectData.services
+        }
         if(mailLoad.isClient){
-            const projectData = await Project.findOne({_id: mailLoad.project})
+            // const projectData = await Project.findOne({_id: mailLoad.project})
             recMail = projectData.email
-            variables = {
-                "client_name" : projectData.eventName,
-                "event_type" : projectData.eventType,
-                "location" : projectData.eventLocation,
-                "contact" : projectData.primaryContact,
-                "start_date" : projectData.dateFrom,
-                "end_date" : projectData.dateTo,
-                "package_name" : projectData.package,
-                "reference" : projectData.reference.title,
-                "quoted_amount" : projectData.amountQuoted,
-                "amount_paid" : projectData.amountPaid,
-                "client_email" : projectData.email,
-                "discount" : projectData.discount,
-                "discount_type" : projectData.discount_type,
-                "client_notes" : projectData.additionalNotes,
-                "services" : projectData.services
-            }
+            variables = project_variables
+            // variables = {
+            //     "client_name" : projectData.eventName,
+            //     "event_type" : projectData.eventType,
+            //     "location" : projectData.eventLocation,
+            //     "contact" : projectData.primaryContact,
+            //     "start_date" : projectData.dateFrom,
+            //     "end_date" : projectData.dateTo,
+            //     "package_name" : projectData.package,
+            //     "reference" : projectData.reference.title,
+            //     "quoted_amount" : projectData.amountQuoted,
+            //     "amount_paid" : projectData.amountPaid,
+            //     "client_email" : projectData.email,
+            //     "discount" : projectData.discount,
+            //     "discount_type" : projectData.discount_type,
+            //     "client_notes" : projectData.additionalNotes,
+            //     "services" : projectData.services
+            // }
         }
         else{
             const workforceData = await Workforce.findOne({_id: mailLoad.workforce.id})
             recMail = workforceData.email
-            variables = {
+            var wf_variables = {
                 "workforce_name": workforceData.name,
                 "workforce_contact" : workforceData.primaryContact,
                 "workforce_joining" : workforceData.dateOfJoining,
@@ -55,10 +74,11 @@ export const sendPayload = async(userId,mailLoad) => {
                 "workforce_email" : workforceData.email,
                 "workforce_type" : workforceData.work_type
             }
+            variables = { ...project_variables, ...wf_variables };
         }
 
-        console.log(mailData.ssl)
-        
+        console.log(variables)
+
 
         const data = {
             username : mailData.username,
