@@ -57,6 +57,9 @@ export const sendPayload = async(userId,mailLoad) => {
             }
         }
 
+        console.log(mailData.ssl)
+        
+
         const data = {
             username : mailData.username,
             word : mailData.password,
