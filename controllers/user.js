@@ -187,7 +187,8 @@ export const manualSub = async(req,res) => {
         }
     let date = new Date();
     const updatedSub = await Subscription.findOneAndUpdate({user: body.user},{currentPlan : 0,expiry_date: date.addDays(30)})
-    res.json(200).json('success')
+    console.log(updatedSub)
+    res.status(200).json(updatedSub)
     }
     catch(error){
         res.status(404).json({message: error.message});
