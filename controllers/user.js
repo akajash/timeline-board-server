@@ -180,6 +180,12 @@ export const getUsers = async(req,res) => {
 export const manualSub = async(req,res) => {
     const body = req.body
     try{
+    Date.prototype.addDays = function (days) {
+        let date = new Date(this.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+        }
+    let date = new Date();
     const updatedSub = await Subscription.findOneAndUpdate({user: body.user},{currentPlan : 0,expiry_date: date.addDays(30)})
     res.json(200).json('success')
     }
