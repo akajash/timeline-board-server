@@ -160,3 +160,31 @@ export const resetPassword = async(req,res,next) => {
         next(error)
     }
 } 
+
+
+export const getUsers = async(req,res) => {
+
+
+    try{
+        
+        let users = await User.find()
+        
+        res.status(200).json(users)
+
+    }catch(error){
+        res.status(404).json({message: error.message});
+    }
+}
+
+
+export const manualSub = async(req,res) => {
+    const body = req.body
+    try{
+    const updatedSub = await Subscription.findOneAndUpdate({user: body.user},{currentPlan : 0,expiry_date: date.addDays(30)})
+    res.json(200).json('success')
+    }
+    catch(error){
+        res.status(404).json({message: error.message});
+    }
+}
+
