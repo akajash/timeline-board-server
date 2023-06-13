@@ -7,6 +7,8 @@ import ErrorResponse from './customError.js'
 import EmailSettings from '../models/emailSettings.js'
 import Analytics from '../models/analytics.js'
 import Subscription from '../models/subscription.js'
+import Designation from '../models/designation.js'
+import Reference from '../models/reference.js'
 
 
 export const signin = async (req,res,next) => {
@@ -72,6 +74,11 @@ export const signup = async (req,res,next) => {
         await Analytics.create({creator: result._id})
         await Subscription.create({user: result._id})
 
+        const newReference = new Reference({reference_name: "Instagram", user: result._id, createdAt: new Date().toISOString()})
+        await newReference.save()
+        
+        const newDesignation = new Designation({title: "Photographer", creator: result._id})
+        await newDesignation.save()
         
         const token = jwt.sign({ email: result.email, id: result._id}, 'test', {expiresIn: "12h"})
 
