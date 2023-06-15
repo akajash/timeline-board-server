@@ -106,7 +106,7 @@ export const forgotPassword = async(req,res,next) => {
 
         await user.save(); 
 
-        const resetUrl = `http://studio.timelinesuite.com/auth/reset-password/${resetToken}`
+        const resetUrl = `https://timelinesuite.com/auth/reset-password/${resetToken}`
 
         const message = `
             <h1>You have requested a password reset</h1>
